@@ -1,0 +1,23 @@
+[
+  {
+    "name": "High Temperature Case",
+    "inputs": {
+      "cpu": 90,
+      "ram": 85,
+      "temp": 88,
+      "disk": 45,
+      "boot": 120
+    }
+  },
+
+  {
+    "name": "Normal System",
+    "inputs": {
+      "cpu": 35,
+      "ram": 40,
+      "temp": 45,
+      "disk": 90,
+      "boot": 25
+    }
+  }
+]
