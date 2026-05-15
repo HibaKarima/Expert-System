@@ -8,6 +8,7 @@ Built with:
 - Streamlit
 - NumPy
 
+# To Try it : https://expert-system-xqhs5jdvxzrh8dymbeevnx.streamlit.app/
 ---
 
 # Project Overview
