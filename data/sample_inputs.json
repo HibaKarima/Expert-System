@@ -1,0 +1,26 @@
+[
+	{
+		"name": "Office Workload - Stable",
+		"cpu": 35,
+		"ram": 40,
+		"temp": 45,
+		"disk": 90,
+		"boot": 25,
+		"fan": 35,
+		"disk_usage": 55,
+		"free_space": 45,
+		"battery_health": 85
+	},
+	{
+		"name": "Gaming Workload - High Heat",
+		"cpu": 90,
+		"ram": 85,
+		"temp": 88,
+		"disk": 45,
+		"boot": 120,
+		"fan": 85,
+		"disk_usage": 92,
+		"free_space": 8,
+		"battery_health": 35
+	}
+]

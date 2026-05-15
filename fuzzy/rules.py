@@ -1,205 +1,193 @@
-# import skfuzzy.control as ctrl
+import skfuzzy.control as ctrl
 
-# def build_fuzzy_rules(cpu, ram, temp, disk, boot, performance, overheating, stability):
-#     rules = []
 
-#     # Performance rules
-#     rules.append(ctrl.Rule(
-#         cpu['low'] & ram['low'] & boot['fast'] & disk['good'],
-#         performance['high']
-#     ))
+def build_fuzzy_rules(
+    cpu_usage, ram_usage, temperature, disk_health, boot_time, fan_noise,
+    disk_usage, free_space, battery_health, post_success, drive_detected,
+    performance, overheating_risk, stability,
+    storage_issue, battery_issue, boot_issue
+):
 
-#     rules.append(ctrl.Rule(
-#         cpu['medium'] & ram['medium'] & disk['normal'],
-#         performance['medium']
-#     ))
+    rules = []
 
-#     rules.append(ctrl.Rule(
-#         cpu['high'] & ram['high'] & boot['slow'],
-#         performance['medium']
-#     ))
+    rules.append(ctrl.Rule(
+        temperature['hot'] & cpu_usage['high'] & fan_noise['high'],
+        overheating_risk['high']
+    ))
 
-#     rules.append(ctrl.Rule(
-#         cpu['low'] & boot['slow'] & disk['bad'],
-#         performance['low']
-#     ))
+    rules.append(ctrl.Rule(
+        temperature['hot'] & cpu_usage['high'] & fan_noise['low'],
+        overheating_risk['high']
+    ))
 
-#     rules.append(ctrl.Rule(
-#         ram['high'] & cpu['high'] & disk['normal'],
-#         performance['medium']
-#     ))
+    rules.append(ctrl.Rule(
+        temperature['warm'] & cpu_usage['high'] & fan_noise['high'],
+        overheating_risk['medium']
+    ))
 
-#     rules.append(ctrl.Rule(
-#         disk['good'] & boot['fast'] & cpu['medium'],
-#         performance['high']
-#     ))
+    rules.append(ctrl.Rule(
+        temperature['warm'] & ram_usage['high'] & fan_noise['high'],
+        overheating_risk['medium']
+    ))
 
-#     rules.append(ctrl.Rule(
-#         ram['low'] & cpu['high'] & boot['slow'],
-#         performance['low']
-#     ))
+    rules.append(ctrl.Rule(
+        temperature['cool'] & cpu_usage['low'] & fan_noise['normal'],
+        overheating_risk['low']
+    ))
 
-#     rules.append(ctrl.Rule(
-#         boot['slow'] & disk['bad'],
-#         performance['low']
-#     ))
+    rules.append(ctrl.Rule(
+        temperature['hot'] & ram_usage['high'],
+        overheating_risk['high']
+    ))
 
-#     rules.append(ctrl.Rule(
-#         ram['high'] & cpu['low'],
-#         performance['medium']
-#     ))
+    rules.append(ctrl.Rule(
+        cpu_usage['low'] & ram_usage['low'] & boot_time['fast'] & disk_health['good'],
+        performance['high']
+    ))
 
-#     rules.append(ctrl.Rule(
-#         disk['good'] & boot['fast'] ,
-#         performance['high']
-#     ))
+    rules.append(ctrl.Rule(
+        cpu_usage['medium'] & ram_usage['medium'] & disk_health['normal'],
+        performance['medium']
+    ))
 
-#     rules.append(ctrl.Rule(
-#         cpu['low'] & ram['low'] & temp['cool'] ,
-#         performance['high']
-#     ))
+    rules.append(ctrl.Rule(
+        cpu_usage['high'] & ram_usage['high'] & boot_time['slow'],
+        performance['medium']
+    ))
 
-#     # Overheating risk rules
-#     rules.append(ctrl.Rule(
-#         temp['hot'] & cpu['high'],
-#         overheating['high']
-#     ))
+    rules.append(ctrl.Rule(
+        cpu_usage['high'] & boot_time['slow'] & disk_health['bad'],
+        performance['low']
+    ))
 
-#     rules.append(ctrl.Rule(
-#         temp['warm'] & cpu['high'],
-#         overheating['medium']
-#     ))
+    rules.append(ctrl.Rule(
+        disk_health['good'] & boot_time['fast'] & cpu_usage['medium'],
+        performance['high']
+    ))
 
-#     rules.append(ctrl.Rule(
-#         temp['hot'] & cpu['medium'],
-#         overheating['high']
-#     ))
+    rules.append(ctrl.Rule(
+        boot_time['slow'] & ram_usage['high'],
+        performance['low']
+    ))
 
-#     rules.append(ctrl.Rule(
-#         temp['cool'] & cpu['low'],
-#         overheating['low']
-#     ))
+    rules.append(ctrl.Rule(
+        disk_health['good'] & cpu_usage['medium'] & temperature['cool'],
+        stability['stable']
+    ))
 
-#     rules.append(ctrl.Rule(
-#         temp['warm'] & ram['medium'],
-#         overheating['medium']
-#     ))
+    rules.append(ctrl.Rule(
+        boot_time['fast'] & cpu_usage['low'] & ram_usage['low'],
+        stability['stable']
+    ))
 
-#     rules.append(ctrl.Rule(
-#         temp['hot'] & boot['slow'] & ram['high'],
-#         overheating['high']
-#     ))
+    rules.append(ctrl.Rule(
+        boot_time['slow'] & disk_health['bad'],
+        stability['unstable']
+    ))
 
-#     rules.append(ctrl.Rule(
-#         temp['hot'] & ram['high'],
-#         overheating['high']
-#     ))
+    rules.append(ctrl.Rule(
+        ram_usage['high'] & disk_health['bad'],
+        stability['unstable']
+    ))
 
-#     rules.append(ctrl.Rule(
-#         temp['cool'] & cpu['medium'],
-#         overheating['low']
-#     ))
+    rules.append(ctrl.Rule(
+        temperature['hot'] & cpu_usage['high'] & fan_noise['low'],
+        stability['unstable']
+    ))
 
-#     # Stability rules
-#     rules.append(ctrl.Rule(
-#         performance['high'] & overheating['low'] & disk['good'],
-#         stability['stable']
-#     ))
+    rules.append(ctrl.Rule(
+        cpu_usage['medium'] & ram_usage['medium'] & disk_health['normal'] & temperature['warm'],
+        stability['moderate']
+    ))
 
-#     rules.append(ctrl.Rule(
-#         performance['medium'] & overheating['medium'] & disk['normal'],
-#         stability['moderate']
-#     ))
+    rules.append(ctrl.Rule(
+        cpu_usage['low'] & ram_usage['low'] & disk_health['good'] & temperature['cool'],
+        stability['stable']
+    ))
 
-#     rules.append(ctrl.Rule(
-#         performance['low'] | overheating['high'],
-#         stability['unstable']
-#     ))
+    rules.append(ctrl.Rule(
+        disk_usage['high'] & free_space['low'],
+        storage_issue['high']
+    ))
 
-#     rules.append(ctrl.Rule(
-#         boot['slow'] & disk['bad'],
-#         stability['unstable']
-#     ))
+    rules.append(ctrl.Rule(
+        disk_usage['medium'] & free_space['medium'],
+        storage_issue['medium']
+    ))
 
-#     rules.append(ctrl.Rule(
-#         performance['high'] & overheating['medium'],
-#         stability['moderate']
-#     ))
+    rules.append(ctrl.Rule(
+        disk_usage['low'] & free_space['high'],
+        storage_issue['low']
+    ))
 
-#     rules.append(ctrl.Rule(
-#         performance['medium'] & overheating['low'],
-#         stability['stable']
-#     ))
+    rules.append(ctrl.Rule(
+        battery_health['critical'],
+        battery_issue['high']
+    ))
 
-#     rules.append(ctrl.Rule(
-#         disk['good'] & cpu['medium'] & temp['cool'],
-#         stability['stable']
-#     ))
+    rules.append(ctrl.Rule(
+        battery_health['worn'],
+        battery_issue['medium']
+    ))
 
-#     rules.append(ctrl.Rule(
-#         boot['fast'] & cpu['low'],
-#         stability['stable']
-#     ))
+    rules.append(ctrl.Rule(
+        battery_health['good'],
+        battery_issue['low']
+    ))
 
-#     rules.append(ctrl.Rule(
-#         temp['hot'] & disk['bad'],
-#         stability['unstable']
-#     ))
+    rules.append(ctrl.Rule(
+        boot_time['slow'] & disk_health['bad'],
+        boot_issue['critical']
+    ))
 
-#     rules.append(ctrl.Rule(
-#         ram['high'] & disk['bad'],
-#         stability['unstable']
-#     ))
+    rules.append(ctrl.Rule(
+        boot_time['slow'] & disk_health['normal'],
+        boot_issue['possible']
+    ))
 
-#     rules.append(ctrl.Rule(
-#         ram['high'] & cpu['high'] & temp['hot'],
-#         stability['unstable']
-#     ))
+    rules.append(ctrl.Rule(
+        boot_time['fast'] & disk_health['good'],
+        boot_issue['none']
+    ))
 
-#     return rules
+    rules.append(ctrl.Rule(
+        post_success['yes'],
+        stability['stable']
+    ))
 
-# fuzzy/rules.py
+    rules.append(ctrl.Rule(
+        drive_detected['yes'],
+        boot_issue['none']
+    ))
 
-FUZZY_RULES = [
+    rules.append(ctrl.Rule(
+        cpu_usage['high'] & ram_usage['high'],
+        performance['low']
+    ))
 
-    {
-        "name": "High Overheating Risk",
+    rules.append(ctrl.Rule(
+        temperature['hot'],
+        overheating_risk['high']
+    ))
 
-        "conditions": {
-            "temperature": "HIGH",
-            "cpu_usage": "HIGH",
-            "fan_noise": "HIGH"
-        },
+    rules.append(ctrl.Rule(
+        temperature['cool'],
+        overheating_risk['low']
+    ))
 
-        "output": {
-            "overheating_risk": "HIGH"
-        }
-    },
+    rules.append(ctrl.Rule(
+        boot_time['slow'],
+        boot_issue['critical']
+    ))
 
-    {
-        "name": "Moderate Performance Issue",
+    rules.append(ctrl.Rule(
+        disk_usage['high'],
+        storage_issue['high']
+    ))
 
-        "conditions": {
-            "ram_usage": "HIGH",
-            "startup_time": "HIGH"
-        },
+    rules.append(ctrl.Rule(
+        disk_usage['low'],
+        storage_issue['low']
+    ))
 
-        "output": {
-            "performance": "LOW"
-        }
-    },
-
-    {
-        "name": "Possible Storage Issue",
-
-        "conditions": {
-            "disk_usage": "HIGH",
-            "boot_time": "HIGH",
-            "freezing_frequency": "HIGH"
-        },
-
-        "output": {
-            "storage_issue_risk": "HIGH"
-        }
-    }
-]
+    return rules

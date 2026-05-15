@@ -1,12 +1,9 @@
 import json
-
 from fuzzy.inference import run_inference
 
-# Load test cases
 with open("data/test_cases.json", "r") as file:
     test_cases = json.load(file)
 
-# Run tests
 for case in test_cases:
 
     print("\n========================")
